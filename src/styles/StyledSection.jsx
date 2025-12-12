@@ -5,25 +5,22 @@ export const StyledSection = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 8px;
-  gap: 8px; 
+  gap: 24px; 
+  margin-right: 8px;
 
   /* Tablet and up --> */
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: "padding";
-    gap: "gap"; 
+
   }
 
   /* Desktop and up --> */
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-     padding: "padding";
-    gap: "gap"; 
   }
+    
   /* Desktop Large and up --> */
   @media (min-width: ${({ theme }) => theme.breakpoints.desktopLarge}) {
-    padding: "padding";
-    gap: "gap"; 
   }
 `

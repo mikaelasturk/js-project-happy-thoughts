@@ -1,4 +1,4 @@
 export { ContactSection } from './ContactSection'
 export { HeroSection } from './HeroSection'
-export { InputSection } from './InputSection'
+export { FormSection } from './FormSection'
 export { MessageSection } from './MessageSection'

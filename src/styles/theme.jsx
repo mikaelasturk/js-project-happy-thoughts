@@ -19,6 +19,8 @@ export const theme = {
       button: {
         bgClr: "var(--1st-btn-bg-clr)",
         textClr: "var(--1st-btn-txt-clr)",
+        padding: "var(--btn-padding)",
+        borderRadius: "var(--btn-border-radius)"
       }
     },
     message: {
@@ -28,6 +30,9 @@ export const theme = {
       button: {
         bgClr: "var(--2nd-btn-bg-clr)",
         hoverBgClr: "var(--2nd-btn-bg-clr-hover)",
+        activeBgClr: "var(--2nd-btn-bg-clr-hover)",
+        padding: "10px 14px",
+        borderRadius: "var(--btn-border-radius)"
       }
     }
   },

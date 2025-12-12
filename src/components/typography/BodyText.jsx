@@ -2,8 +2,9 @@ import styled from "styled-components"
 
 const StyledBodyText = styled.p`
 
-  text-align: ${({ textAlign }) => textAlign === "center" ? "center" : "left"};
-   white-space: pre-wrap;
+  text-align: ${({ textAlign }) => textAlign === "center" ? "center" : textAlign === "right" ? "right" : "left"};
+  margin-left: ${({ marginLeft }) => marginLeft === "auto" ? "auto" : "0"};
+  white-space: ${({ whiteSpace }) => whiteSpace === "pre-wrap" ? "pre-wrap" : "normal"};;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
    
@@ -22,9 +23,12 @@ const StyledBodyText = styled.p`
   }
 `
 
-export const BodyText = ({ text, textAlign }) => {
+export const BodyText = ({ text, textAlign, marginLeft, whiteSpace }) => {
   return (
-    <StyledBodyText textAlign={textAlign}>
+    <StyledBodyText 
+    textAlign={textAlign} 
+    marginLeft={marginLeft}
+    whiteSpace={whiteSpace}>
       {text} 
     </StyledBodyText>
   )

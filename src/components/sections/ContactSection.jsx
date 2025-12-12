@@ -6,7 +6,7 @@ export const ContactSection = ({ variant }) => {
   return (
      <StyledSection variant={variant} id="contact-section">
       <SocialMediaContainer />
-      <BodyText text="© 2025 Mikaela Sturk. All rights reserved." />
+      <BodyText textAlign="center" text="© 2025 Mikaela Sturk. All rights reserved." />
     </StyledSection>
   )
 }

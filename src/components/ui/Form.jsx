@@ -30,8 +30,6 @@ export const Form = ({ onSendMessage }) => {
   }
 
   const handleKeyDown = (e) => {
-    // Enter = submit
-    // Shift + Enter = ny rad
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       submitMessage()
@@ -42,6 +40,7 @@ export const Form = ({ onSendMessage }) => {
     <StyledForm onSubmit={handleSubmit}>
       <InputField
         id="message"
+        labelText="What's making you happy right now?"
         type="textarea"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
