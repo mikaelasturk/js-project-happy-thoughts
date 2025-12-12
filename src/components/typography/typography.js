@@ -1,6 +1,4 @@
-export { BodyText } from './BodyText'
-export { CardTitle } from './CardTitle'
-export { PageTitle } from './PageTitle'
-export { SectionTitle } from './SectionTitle'
-export { SkillTitle } from './SkillTitle'
-export { ListTitle } from './ListTitle'
+export { BodyText } from './BodyText' // Paragraph
+export { CardTitle } from './CardTitle' // H3
+export { PageTitle } from './PageTitle' // H1
+export { SectionTitle } from './SectionTitle' // H2

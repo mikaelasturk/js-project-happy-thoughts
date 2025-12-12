@@ -1,5 +1,3 @@
-export { ArticleCard } from './ArticleCard'
-export { ProjectCard } from './ProjectCard'
-export { SkillColumn } from './SkillColumn'
-export { WavePathComp} from './WavePathComp'
+export { InputForm } from './InputForm'
+export { MessageCard } from './MessageCard'
 export { SocialMediaContainer } from './SocialMediaContainer'

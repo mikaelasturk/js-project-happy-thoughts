@@ -7,5 +7,4 @@ export const FlexWrapper = styled.div`
   align-items: ${({ align }) => align || 'stretch'};
   gap: ${({ gap }) => gap || '0px'};
   flex-wrap: ${({ wrap }) => wrap || 'nowrap'};
-
 `;
