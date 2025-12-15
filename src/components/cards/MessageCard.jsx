@@ -17,8 +17,9 @@ const Wrapper = styled.div`
 `
 
 const timeAgo = (timestamp) => {
-  const seconds = Math.floor((Date.now() - timestamp) / 1000)
-
+  const diffMs = Date.now() - new Date(timestamp).getTime();
+  
+  const seconds = Math.floor(Math.max(0, diffMs) / 1000);
   if (seconds < 60) return `${seconds} seconds ago`
 
   const minutes = Math.floor(seconds / 60)

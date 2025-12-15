@@ -8,7 +8,7 @@ const StyledForm = styled.form`
   gap: 10px;
 `
 
-export const Form = ({ onSendMessage }) => {
+export const Form = ({ onFormSubmit }) => {
   const [message, setMessage] = useState('')
 
   const MIN = 5
@@ -20,7 +20,7 @@ export const Form = ({ onSendMessage }) => {
 
     if (length < MIN || length > MAX) return
 
-    onSendMessage(trimmed)
+    onFormSubmit(trimmed)
     setMessage('')
   }
 

@@ -1,70 +1,109 @@
-import { useState, useRef } from 'react'
-import { ThemeProvider } from 'styled-components'
-import { theme, GlobalStyle } from './styles/styles'
-import { BodyWrapper } from './components/layout/layout'
+import { useEffect, useState } from "react";
 import { 
+  fetchMessages, 
+  createMessage, 
+  likeMessage 
+} from "./data/api/api";
+import { ThemeProvider } from "styled-components";
+import { theme, GlobalStyle } from "./styles/styles";
+import { BodyWrapper } from "./components/layout/layout";
+import {
   HeroSection,
   FormSection,
   MessageSection,
-  ContactSection
-} from './components/sections/sections'
+  ContactSection,
+} from "./components/sections/sections";
 
 export const App = () => {
+  //Store current messages in state
+  const [messages, setMessages] = useState([]);
 
-  const [messages, setMessages] = useState([])
- const idRef = useRef(0)
+  // Fetch messages on mount
+  useEffect(() => {
+    fetchMessages()
+      .then((data) => {
+        // Map API response shape to the shape used by MessageCard component
+        const mapped = data.map((item) => ({
+          id: item._id,
+          text: item.message,
+          createdAt: item.createdAt,
+          likes: item.hearts,
+          liked: false,
+        }));
 
-  const addMessage = (text) => {
-    const newMessage = {
-      id: idRef.current,
-      text,
-      createdAt: Date.now(),
-      likes: 0,
-      liked: false
+        setMessages(mapped);
+      })
+      .catch((error) => {
+        // Handle error during initial load
+        console.error("Failed to fetch messages:", error);
+      });
+  }, []);
+
+  // Create a new message in the API
+  const addMessage = async (text) => {
+    try {
+      const data = await createMessage(text);
+
+      const newMessage = {
+        id: data._id,
+        text: data.message,
+        createdAt: data.createdAt,
+        likes: data.hearts,
+        liked: false,
+      };
+
+      // New messages appear at the top
+      setMessages((previousMessages) => [newMessage, ...previousMessages]);
+    } catch (error) {
+       // Handle error during message creation
+      console.error("Failed to create message:", error);
     }
-    setMessages((prev) => [newMessage, ...prev])
-    idRef.current += 1
-  }
+  };
 
-  const addLike = (id) => {
-    setMessages((prev) =>
-      prev.map((msg) =>
-        msg.id === id
-          ? {
-              ...msg,
-              likes: msg.likes + 1,
-              liked: true
-            }
-          : msg
-      )
-    )
-  } 
+  // Send a like to the API and update the liked message in state
+  const addLike = async (id) => {
+    try {
+      const updated = await likeMessage(id);
 
+      setMessages((messages) =>
+        messages.map((message) =>
+          message.id === id
+            ? { ...message, likes: updated.hearts, liked: true }
+            : message
+        )
+      );
+    } catch (error) {
+      // Handle error during liking a message
+      console.error("Failed to like message:", error);
+    }
+  };
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle/>
-        <BodyWrapper>
-          <header>
-            <HeroSection />
-          </header>
-          <main> 
-            <FormSection 
-            variant="input" 
-            onSendMessage={addMessage} />
-            <MessageSection 
-            variant="message" 
-            messages={messages} 
-            onLike={addLike} 
-            />
-          </main>
-          <footer>
-            <ContactSection />
-          </footer>
-        </BodyWrapper>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BodyWrapper>
+        <header>
+          <HeroSection />
+        </header>
 
-  )
-}
+        <main>
+            {/* SubmitButton triggers addMessage, which posts to API and updates state */}
+          <FormSection 
+            variant="input" 
+            onFormSubmit={addMessage} 
+          />
+          {/*  LikeButton triggers addLike, which sends new like to API and updates state */}
+          <MessageSection
+            variant="message"
+            messages={messages}
+            onLike={addLike}
+          />
+        </main>
+
+        <footer>
+          <ContactSection />
+        </footer>
+      </BodyWrapper>
+    </ThemeProvider>
+  );
+};

@@ -2,10 +2,10 @@
 import { StyledCard } from '../../styles/styles'
 import { Form } from '../ui/ui'
 
-export const FormCard = ({ variant, onSendMessage }) => {
+export const FormCard = ({ variant, onFormSubmit }) => {
   return (
     <StyledCard variant={variant}>
-      <Form onSendMessage={onSendMessage} />
+      <Form onFormSubmit={onFormSubmit} />
     </StyledCard>
   )
 }

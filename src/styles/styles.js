@@ -1,4 +1,3 @@
-export { FlexWrapper } from './FlexWrapper'
 export { GlobalStyle } from './GlobalStyle'
 export { StyledCard } from './StyledCard'
 export { StyledButton } from './StyledButton'
