@@ -1,7 +1,8 @@
 import { StyledSection } from '../../styles/styles'
 import { MessageCard } from '../cards/cards'
+import { SpinnerLoader } from "../ui/ui";
 
-export const MessageSection = ({ variant, messages, onLike }) => {
+export const MessageSection = ({ variant, messages, onLike, isLoading }) => {
   return (
     <StyledSection variant={variant}>
       {messages.map((message) => (
@@ -12,6 +13,7 @@ export const MessageSection = ({ variant, messages, onLike }) => {
         onLike={onLike}
         />
       ))}
+      {isLoading && <SpinnerLoader />}
     </StyledSection>
   )
 }

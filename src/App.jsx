@@ -17,9 +17,11 @@ import {
 export const App = () => {
   //Store current messages in state
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   // Fetch messages on mount
   useEffect(() => {
+    setLoading(true)
     fetchMessages()
       .then((data) => {
         // Map API response shape to the shape used by MessageCard component
@@ -36,7 +38,8 @@ export const App = () => {
       .catch((error) => {
         // Handle error during initial load
         console.error("Failed to fetch messages:", error);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   // Create a new message in the API
@@ -97,6 +100,7 @@ export const App = () => {
             variant="message"
             messages={messages}
             onLike={addLike}
+            isLoading={loading}
           />
         </main>
 

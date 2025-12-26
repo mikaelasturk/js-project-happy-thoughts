@@ -6,7 +6,7 @@ const StyledBodyText = styled.p`
   margin-left: ${({ marginLeft }) => marginLeft === "auto" ? "auto" : "0"};
   white-space: ${({ whiteSpace }) => whiteSpace === "pre-wrap" ? "pre-wrap" : "normal"};;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+  /* @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
    
   }
 
@@ -20,7 +20,7 @@ const StyledBodyText = styled.p`
  
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
   
-  }
+  } */
 `
 
 export const BodyText = ({ text, textAlign, marginLeft, whiteSpace }) => {
