@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const StyledSection = styled.div`
+export const StyledSection = styled.div.attrs(({ $variant }) => ({
+  'variant': $variant,
+}))`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,12 +10,13 @@ export const StyledSection = styled.div`
   gap: 24px; 
   margin-right: 8px;
 
+  ${({ $variant }) => $variant === "contact" && `
+    gap: 8px;
+    margin: 16px 0;
+  `}
+
   /* Tablet and up --> */
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
   }
 
   /* Desktop and up --> */

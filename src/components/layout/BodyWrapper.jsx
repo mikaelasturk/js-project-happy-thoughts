@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 const StyledBodyWrapper = styled.div`
+  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
+  justify-content: flex-start;
+  margin: 0;
 `
 
 

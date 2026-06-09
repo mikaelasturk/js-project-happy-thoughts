@@ -4,7 +4,7 @@ import { Form } from '../ui/ui'
 
 export const FormCard = ({ variant, onFormSubmit }) => {
   return (
-    <StyledCard variant={variant}>
+    <StyledCard $variant={variant}>
       <Form onFormSubmit={onFormSubmit} />
     </StyledCard>
   )

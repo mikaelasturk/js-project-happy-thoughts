@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+
 import { Button, InputField } from './ui'
+import { contentStore } from '../../stores/contentStore'
 
 const StyledForm = styled.form`
   display: flex;
@@ -10,16 +12,14 @@ const StyledForm = styled.form`
 
 export const Form = ({ onFormSubmit }) => {
   const [message, setMessage] = useState('')
-
+  const { content } = contentStore();
   const MIN = 5
   const MAX = 140
 
   const submitMessage = () => {
     const trimmed = message.trim()
     const length = trimmed.length
-
     if (length < MIN || length > MAX) return
-
     onFormSubmit(trimmed)
     setMessage('')
   }
@@ -40,21 +40,20 @@ export const Form = ({ onFormSubmit }) => {
     <StyledForm onSubmit={handleSubmit}>
       <InputField
         id="message"
-        labelText="What's making you happy right now?"
+        labelText={content.formLabel}
         type="textarea"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Type your happy thought here..."
+        placeholder={content.formPlaceholder}
         required={true}
         minLength={MIN}
         maxLength={MAX}
       />
-
       <Button
         variant="input"
         type="submit"
-        text="❤️ Send Happy Thought ❤️"
+        text={content.formButton}
       />
     </StyledForm>
   )

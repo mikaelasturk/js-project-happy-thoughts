@@ -3,7 +3,7 @@ import { FormCard } from '../cards/cards'
 
 export const FormSection = ({ variant, onFormSubmit }) => {
   return (
-    <StyledSection variant={variant}>
+    <StyledSection $variant={variant}>
       <FormCard variant={variant} onFormSubmit={onFormSubmit} />
     </StyledSection>
   )

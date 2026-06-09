@@ -1,16 +1,20 @@
+
 import { BodyText, PageTitle } from '../typography/typography'
-import { StyledSection } from '../../styles/StyledSection'
+import { StyledSection } from '../../styles/styles'
+import { contentStore } from '../../stores/contentStore'
 
 export const HeroSection = ({ variant }) => {
+  const { content } = contentStore();
   return (
-    <StyledSection variant={variant} id="hero-section" >
+    <StyledSection $variant={variant} id="hero-section" >
       <PageTitle 
-      variant={variant} 
-      title="Welcome to Happy Thoughts!"/>
+        variant={variant} 
+        title={content.heroTitle}
+      />
       <BodyText 
-      variant={variant} textAlign="center" 
-      text="Share your happy thoughts and spread positivity. Connect with others and brighten someone's day!"/>
+        variant={variant} textAlign="center" 
+        text={content.heroBody}
+      />
     </StyledSection>
-      
   )
 }

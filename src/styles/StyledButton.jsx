@@ -1,12 +1,12 @@
 import styled from "styled-components"
 
 export const StyledButton = styled.button`
-   background-color: ${({ theme, variant, active }) =>
-      active
-        ? theme.sections[variant].button.activeBgClr
-        : theme.sections[variant].button.bgClr};
-  color: ${({ theme, variant }) => variant ? theme.sections[variant].button.textClr : "inherit"};
-  border-radius:  ${({ theme, variant }) => variant ? theme.sections[variant].button.borderRadius : "inherit"};
+  background-color: ${({ theme, $variant, $active }) =>
+    $active
+      ? theme.sections[$variant].button.activeBgClr
+      : theme.sections[$variant].button.bgClr};
+  color: ${({ theme, $variant }) => $variant ? theme.sections[$variant].button.textClr : "inherit"};
+  border-radius:  ${({ theme, $variant }) => $variant ? theme.sections[$variant].button.borderRadius : "inherit"};
   border: none;
   padding: 16px 8px;
   margin: var(--btn-margin);
@@ -20,13 +20,13 @@ export const StyledButton = styled.button`
 
 
   &:hover {
-    background-color: ${({ theme, variant }) => variant ? theme.sections[variant].button.hoverBgClr : "inherit"};
-    color: ${({ theme, variant }) => variant ? theme.sections[variant].button.hoverTextClr : "inherit"};
+    background-color: ${({ theme, $variant }) => $variant ? theme.sections[$variant].button.hoverBgClr : "inherit"};
+    color: ${({ theme, $variant }) => $variant ? theme.sections[$variant].button.hoverTextClr : "inherit"};
   }
   
   @media (min-width: 360px) {
-    padding: ${({ theme, variant }) => variant ? theme.sections[variant].button.padding : "inherit"};
-
+    padding: ${({ theme, $variant }) => $variant ? theme.sections[$variant].button.padding : "inherit"};
+  }
   }
 
   /* Tablet and up --> */

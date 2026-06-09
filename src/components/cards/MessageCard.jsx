@@ -14,6 +14,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  margin-top: auto;
+`
+
+const MessageText = styled.div`
+  align-self: stretch;
 `
 
 const timeAgo = (timestamp) => {
@@ -38,24 +43,26 @@ const timeAgo = (timestamp) => {
   return `${years} years ago`
 }
 
-export const MessageCard = ({ variant, message, onLike, isNew }) => {
+export const MessageCard = ({ variant, message, onLike, isNew, viewMode }) => {
   return (
-    <StyledCard variant={variant}>
-      <BodyText whiteSpace="pre-wrap" text={message.text} />
+    <StyledCard $variant={variant} $viewMode={viewMode}>
+      <MessageText>
+        <BodyText whiteSpace="pre-wrap" text={message.text} />
+      </MessageText>
 
       <Wrapper>
         <LikesWrapper>
           <Button 
-          variant={variant}
-          text="❤️"
-          onClick={() => onLike(message.id)}
-          active={message.liked}
-          isNew={isNew}
+            variant={variant}
+            text="❤️"
+            onClick={() => onLike(message.id)}
+            active={message.liked}
+            isNew={isNew}
           /> 
           <BodyText text={`x ${message.likes}`} />
         </LikesWrapper>
         <BodyText 
-        text={timeAgo(message.createdAt)} 
+          text={timeAgo(message.createdAt)} 
         />
       </Wrapper>
     </StyledCard>

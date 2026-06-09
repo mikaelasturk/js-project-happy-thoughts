@@ -14,18 +14,20 @@ const popIn = keyframes`
 export const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: ${({ theme, variant }) => variant ? theme.sections[variant].bgClr : "inherit"};
-  color: ${({ theme, variant }) => variant ? theme.sections[variant].textClr : "inherit"};
+  justify-content: flex-start;
+  height: 100%;
+  background-color: ${({ theme, $variant }) => $variant ? theme.sections[$variant].bgClr : "inherit"};
+  color: ${({ theme, $variant }) => $variant ? theme.sections[$variant].textClr : "inherit"};
   border: 2px solid black;
   box-shadow: 12px 12px 0 -4px #000;
   padding: 24px;
-  gap: 8px;
+  gap: 32px;
   border-radius: 2px;
   width: 100%;
   min-width: 200px;
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: ${({ $viewMode }) => ($viewMode === 'grid' ? 'none' : '700px')};
+  margin: ${({ $viewMode }) => ($viewMode === 'grid' ? '0' : '0 auto')};
+  
   animation: ${popIn} 400ms ease-out;
 
   /* Tablet and up --> */

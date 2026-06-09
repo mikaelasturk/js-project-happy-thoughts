@@ -1,13 +1,14 @@
-export const SvgIcon = ({ icon, width,viewBox }) => {
+export const SvgIcon = ({ icon, width, viewBox }) => {
   return (
-      <svg 
+    <svg
       width={width}
-      height="" 
+      height={width}
       viewBox={viewBox}
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"> 
-      {icon} 
-      </svg>
-  )
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {icon}
+    </svg>
+  );
 }
 
