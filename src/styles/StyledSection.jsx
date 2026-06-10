@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledSection = styled.div.attrs(({ $variant }) => ({
-  'variant': $variant,
+  'data-variant': $variant,
 }))`
   display: flex;
   flex-direction: column;

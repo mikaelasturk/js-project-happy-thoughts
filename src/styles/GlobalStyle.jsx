@@ -98,6 +98,17 @@ export const GlobalStyle = createGlobalStyle`
     --btn-margin: 0px;
     --btn-padding: 12px 28px;
   }
+
+  html[data-theme="dark"] {
+    --1st-clr: #f2f2f2;
+    --2nd-clr: #101314;
+    --3rd-clr: #2a2e31;
+    --4th-clr: #ff8e8c;
+    --5th-clr: #1b1f21;
+
+    --icon-clr: #9ea4a7;
+    --icon-hover-clr: #ffffff;
+  }
   /* --------- */
   /*   Reset   */
   /* --------- */
@@ -119,6 +130,9 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     font-family: var(--font-txt);
     max-width: 100vw;
+    background: var(--1st-bg-clr);
+    color: var(--font-clr);
+    transition: background-color 180ms ease, color 180ms ease;
   }
 
   img, picture, video, canvas, svg {

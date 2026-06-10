@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -19,17 +20,34 @@ const LayoutFooter = styled.footer`
   right: 0;
   bottom: 0;
   z-index: 950;
-  background: #fff;
-  border-top: 1px solid #d8d8d8;
+  background: var(--1st-bg-clr);
+  border-top: 1px solid var(--border-clr);
 `
 
 export const AppLayout = () => {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    try {
+      return localStorage.getItem('happy-thoughts-theme') === 'dark'
+    } catch {
+      return false
+    }
+  })
+
+  useEffect(() => {
+    const mode = isDarkMode ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', mode)
+    localStorage.setItem('happy-thoughts-theme', mode)
+  }, [isDarkMode])
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <PageShell>
         <BodyWrapper>
-          <Navbar />
+          <Navbar
+            isDarkMode={isDarkMode}
+            onToggleDarkMode={() => setIsDarkMode((prev) => !prev)}
+          />
           <Outlet />
         </BodyWrapper>
         <LayoutFooter>

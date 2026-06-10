@@ -6,13 +6,9 @@ const StyledBodyText = styled.p`
   margin-left: ${({ $marginLeft }) => $marginLeft === "auto" ? "auto" : "0"};
   white-space: ${({ $whiteSpace }) => $whiteSpace === "pre-wrap" ? "pre-wrap" : "normal"};
 
-  [variant="contact"] & {
+  [data-variant="contact"] & {
     font-size: 14px;
   }
-
-  ${({ $variant }) => $variant === "contact" && `
-    font-size: 14px;
-  `}
 
   /* @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
    

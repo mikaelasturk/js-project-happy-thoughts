@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { StyledSection } from '../../styles/styles'
@@ -28,7 +28,7 @@ const ButtonWrapper = styled.div`
 const ViewButton = styled.button`
   border: 1px solid #111;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: var(--btn-padding);
   background: ${({ $active }) => ($active ? '#111' : '#fff')};
   color: ${({ $active }) => ($active ? '#fff' : '#111')};
   cursor: pointer;
@@ -38,6 +38,11 @@ const ViewButton = styled.button`
 const MessageList = styled.div`
   display: grid;
   gap: 16px;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: 24px;
+    grid-template-columns: ${({ $viewMode }) => ($viewMode === 'grid' ? 'repeat(2, minmax(0, 1fr))' : '1fr')};
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     gap: ${({ $viewMode }) => ($viewMode === 'grid' ? '30px' : '30px')};
@@ -50,96 +55,79 @@ const LoadMoreAnchor = styled.div`
   height: 1px;
 `
 
-const LocalLoadingText = styled.p`
+const EndOfListText = styled.p`
+  margin: 16px 0 0;
   text-align: center;
+  color: #666;
+  font-weight: 600;
 `
 
-const INITIAL_VISIBLE = 8
-const LOAD_STEP = 6
-
-export const MessageSection = ({ variant, messages, onLike, isLoading }) => {
+export const MessageSection = ({ variant, messages, onLike, onDelete, onUpdate, onLoadMore, hasMore, isLoading, isFetchingMore }) => {
   const [viewMode, setViewMode] = useState('list')
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
   const loadMoreRef = useRef(null)
-
-  const hasMore = visibleCount < messages.length
-
-  const visibleMessages = useMemo(
-    () => messages.slice(0, visibleCount),
-    [messages, visibleCount],
-  )
+  const hasScrolledRef = useRef(false)
 
   useEffect(() => {
-    setVisibleCount((prev) => {
-      if (messages.length === 0) return INITIAL_VISIBLE
-      return Math.min(Math.max(prev, INITIAL_VISIBLE), messages.length)
-    })
-  }, [messages.length])
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        hasScrolledRef.current = true
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
-    if (!loadMoreRef.current || !hasMore || isLoading) return undefined
+    if (!loadMoreRef.current || !hasMore || isLoading || isFetchingMore) return undefined
 
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
-        if (!entry?.isIntersecting) return
-
-        setVisibleCount((prev) => Math.min(prev + LOAD_STEP, messages.length))
+        if (entry?.isIntersecting && hasScrolledRef.current) onLoadMore?.()
       },
-      {
-        root: null,
-        rootMargin: '0px 0px 280px 0px',
-        threshold: 0,
-      },
+      { root: null, rootMargin: '0px 0px 120px 0px', threshold: 0 },
     )
 
     observer.observe(loadMoreRef.current)
-
     return () => observer.disconnect()
-  }, [hasMore, isLoading, messages.length])
+  }, [hasMore, isLoading, isFetchingMore, onLoadMore])
 
   return (
     <StyledSection $variant={variant}>
       <ViewToggle>
         <h3>Visa thoughts som:</h3>
         <ButtonWrapper>
-          <ViewButton
-            type="button"
-            onClick={() => setViewMode('list')}
-            $active={viewMode === 'list'}
-          >
-            Lista
-          </ViewButton>
-          <ViewButton
-            type="button"
-            onClick={() => setViewMode('grid')}
-            $active={viewMode === 'grid'}
-          >
-            Grid
-          </ViewButton>
+          <ViewButton type="button" onClick={() => setViewMode('list')} $active={viewMode === 'list'}>Lista</ViewButton>
+          <ViewButton type="button" onClick={() => setViewMode('grid')} $active={viewMode === 'grid'}>Grid</ViewButton>
         </ButtonWrapper>
       </ViewToggle>
 
       <MessageList $viewMode={viewMode}>
-        {visibleMessages.map((message) => (
+        {messages.map((message) => (
           <MessageCard
             key={message.id}
             variant={variant}
             message={message}
             onLike={onLike}
+            onDelete={onDelete}
+            onUpdate={onUpdate}
             viewMode={viewMode}
           />
         ))}
       </MessageList>
 
+      {isLoading && <SpinnerLoader />}
+
       {hasMore && !isLoading && (
-        <>
-          <LocalLoadingText>Laddar fler meddelanden...</LocalLoadingText>
-          <LoadMoreAnchor ref={loadMoreRef} aria-hidden="true" />
-        </>
+        <LoadMoreAnchor ref={loadMoreRef} aria-hidden="true" />
       )}
 
-      {isLoading && <SpinnerLoader />}
+      {isFetchingMore && <SpinnerLoader />}
+
+      {hasMore === false && !isLoading && !isFetchingMore && messages.length > 0 && (
+        <EndOfListText>Du har nått slutet, inga fler thoughts just nu.</EndOfListText>
+      )}
     </StyledSection>
   )
 }

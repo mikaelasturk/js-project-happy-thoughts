@@ -7,22 +7,22 @@ export const HomePage = () => {
   const {
     thoughts: messages,
     loading,
+    isFetchingMore,
+    currentPage,
+    totalPages,
     fetchMessages,
+    fetchMoreMessages,
     createMessage,
     likeMessage,
+    deleteMessage,
+    updateMessage,
   } = useThoughtStore()
 
   useEffect(() => {
     fetchMessages()
   }, [fetchMessages])
 
-  const addMessage = async (text) => {
-    await createMessage(text)
-  }
-
-  const addLike = async (id) => {
-    await likeMessage(id)
-  }
+  const hasMore = currentPage < totalPages
 
   return (
     <>
@@ -33,13 +33,18 @@ export const HomePage = () => {
       <main>
         <FormSection
           variant="input"
-          onFormSubmit={addMessage}
+          onFormSubmit={async (text) => { await createMessage(text) }}
         />
         <MessageSection
           variant="message"
           messages={messages}
-          onLike={addLike}
+          onLike={async (id) => { await likeMessage(id) }}
+          onDelete={async (id) => { await deleteMessage(id) }}
+          onUpdate={async (id, text) => { await updateMessage(id, text) }}
+          onLoadMore={fetchMoreMessages}
+          hasMore={hasMore}
           isLoading={loading}
+          isFetchingMore={isFetchingMore}
         />
       </main>
     </>
